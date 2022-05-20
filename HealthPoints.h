@@ -10,6 +10,11 @@ class HealthPoints
 {
 public:
     /**
+     * exception meant to notify in case an invalid argument was set to a function
+     */
+    class InvalidArgument {};
+
+    /**
      * HealthPoints c'tor
      * initializes health points to the maximum value
      * @param points - 100 is to be set in case no other input was entered
