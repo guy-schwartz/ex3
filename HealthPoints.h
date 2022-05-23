@@ -10,11 +10,6 @@ class HealthPoints
 {
 public:
     /**
-     * exception meant to notify in case an invalid argument was set to a function
-     */
-    class InvalidArgument {};
-
-    /**
      * HealthPoints c'tor
      * initializes health points to the maximum value
      * @param points - 100 is to be set in case no other input was entered
@@ -28,7 +23,15 @@ public:
      * @param points
      * @return - calculated vale
      */
-    HealthPoints& operator+=(const HealthPoints& object);
+    HealthPoints& operator+=(int points);
+
+    /**
+    * adds up a number to current health point value of a third-party object
+    * any way - health points value will not decrease down below zero or up above max healthpoints
+    * @param points
+    * @return - calculated value
+    */
+    HealthPoints operator+(int pointsToAdd) const;
 
     /**
      * deducts a number from current health point value of current object
@@ -36,7 +39,15 @@ public:
      * @param points
      * @return - calculated vale
      */
-    HealthPoints& operator-=(const HealthPoints& object);
+    HealthPoints& operator-=(int points);
+
+    /**
+     * deducts a number from current health point value of a third-party object
+     * any way - health points value will not decrease down below zero or up above max healthpoints
+     * @param object1, object2
+     * @return - calculated value
+     */
+    HealthPoints operator-(int points) const;
 
     /**
      * compares health points value between two objects
@@ -68,18 +79,17 @@ public:
      */
     friend std::ostream& operator<<(std::ostream& os, const HealthPoints& points);
 
-private:
+    /**
+     * an exception meant to notify in case an invalid argument was sent to a function
+     */
+    class InvalidArgument {};
+
+
+//private:
     int m_maxValue;
     int m_currentValue;
 };
 
-/**
- * deducts a number from current health point value of a third-party object
- * any way - health points value will not decrease down below zero or up above max healthpoints
- * @param object1, object2
- * @return - calculated value
- */
-HealthPoints operator-(const HealthPoints& object1, const HealthPoints& object2);
 
 /**
  * compares health points value between two objects
@@ -103,12 +113,5 @@ bool operator>=(const HealthPoints& object1, const HealthPoints& object2);
  */
 bool operator<=(const HealthPoints& object1, const HealthPoints& object2);
 
-/**
-* adds up a number to current health point value of a third-party object
-* any way - health points value will not decrease down below zero or up above max healthpoints
-* @param points
-* @return - calculated value
-*/
-HealthPoints operator+(const HealthPoints& object, int pointsToAdd);
 
 #endif //EX3_HEALTHPOINTS_H
