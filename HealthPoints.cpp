@@ -11,7 +11,7 @@ HealthPoints::HealthPoints(int maxPoints):m_maxValue(maxPoints), m_currentValue(
     }
 }
 
-HealthPoints& HealthPoints::operator+=(int points)
+HealthPoints& HealthPoints::operator+=(const int points)
 {
     int temp=m_currentValue+points;
     m_currentValue=temp;
@@ -22,7 +22,7 @@ HealthPoints& HealthPoints::operator+=(int points)
     return *this;
 }
 
-HealthPoints& HealthPoints::operator-=(int points)
+HealthPoints& HealthPoints::operator-=(const int points)
 {
     int temp=m_currentValue-points;
     m_currentValue=temp;
@@ -33,22 +33,37 @@ HealthPoints& HealthPoints::operator-=(int points)
     return *this;
 }
 
-HealthPoints HealthPoints::operator+(int pointsToAdd) const
+HealthPoints HealthPoints::operator+(const int pointsToAdd) const
 {
     HealthPoints result(*this);
     return (result+=pointsToAdd);
 }
 
-HealthPoints HealthPoints::operator-(int points) const
+static HealthPoints operator+(const int points, const HealthPoints &addTo)
+{
+    return (addTo+points);
+}
+
+HealthPoints HealthPoints::operator-(const int points) const
 {
     HealthPoints result(*this);
     return (result-=points);
 }
 
+HealthPoints operator-(int points, HealthPoints &a)
+{
+    int temp=points-a.m_currentValue;
+    if(temp<0)
+    {
+        temp=0;
+    }
+    HealthPoints b=temp;
+    return b;
+}
+
 int main(){
-    HealthPoints a=300;
     HealthPoints b=250;
-    a=b+30;
-    std::cout<<a;
+    b=200-b;
+    std::cout<<b.m_currentValue;
     return 0;
 }

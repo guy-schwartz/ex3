@@ -49,9 +49,11 @@ public:
      */
     HealthPoints operator-(int points) const;
 
+    friend HealthPoints operator-(int points, HealthPoints &a);
+
     /**
      * compares health points value between two objects
-     * @param object1 -
+     * @param object1
      * @param object2
      * @return true if value is the same, false otherwise
      */
@@ -112,6 +114,16 @@ bool operator>=(const HealthPoints& object1, const HealthPoints& object2);
  * @return true if value is smaller or equal to object, false otherwise
  */
 bool operator<=(const HealthPoints& object1, const HealthPoints& object2);
+
+/**
+ * opposite side of "+" operator
+ * @param points
+ * @param addTo
+ * @return
+ */
+static HealthPoints operator+(int points, const HealthPoints &addTo);
+
+static HealthPoints operator-(int points, const HealthPoints &subtractFrom);
 
 
 #endif //EX3_HEALTHPOINTS_H
