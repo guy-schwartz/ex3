@@ -49,6 +49,12 @@ public:
      */
     HealthPoints operator-(int points) const;
 
+    /**
+     * other side of "-" operator
+     * @param points
+     * @param a
+     * @return
+     */
     friend HealthPoints operator-(int points, HealthPoints &a);
 
     /**
@@ -87,7 +93,7 @@ public:
     class InvalidArgument {};
 
 
-//private:
+private:
     int m_maxValue;
     int m_currentValue;
 };
@@ -123,7 +129,6 @@ bool operator<=(const HealthPoints& object1, const HealthPoints& object2);
  */
 static HealthPoints operator+(int points, const HealthPoints &addTo);
 
-static HealthPoints operator-(int points, const HealthPoints &subtractFrom);
 
 
 #endif //EX3_HEALTHPOINTS_H

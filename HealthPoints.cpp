@@ -61,9 +61,38 @@ HealthPoints operator-(int points, HealthPoints &a)
     return b;
 }
 
-int main(){
-    HealthPoints b=250;
-    b=200-b;
-    std::cout<<b.m_currentValue;
-    return 0;
+bool operator==(const HealthPoints& object1, const HealthPoints& object2)
+{
+    return object1.m_currentValue==object2.m_currentValue;
+}
+
+bool operator!=(const HealthPoints& object1, const HealthPoints& object2)
+{
+    return !(object1==object2);
+}
+
+bool HealthPoints::operator<(const HealthPoints& object) const
+{
+    return m_currentValue<object.m_currentValue;
+}
+
+bool HealthPoints::operator>(const HealthPoints& object) const
+{
+    return m_currentValue>object.m_currentValue;
+}
+
+bool operator>=(const HealthPoints& object1, const HealthPoints& object2)
+{
+    return (object1>object2)||(object1==object2);
+}
+
+bool operator<=(const HealthPoints& object1, const HealthPoints& object2)
+{
+    return (object1<object2)||(object1==object2);
+}
+
+std::ostream& operator<<(std::ostream& os, const HealthPoints& points)
+{
+    os<<points.m_currentValue<<"("<<points.m_maxValue<<")";
+    return os;
 }
