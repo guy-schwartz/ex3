@@ -46,6 +46,9 @@ HealthPoints HealthPoints::operator-(int points) const
 }
 
 int main(){
-
+    HealthPoints a=300;
+    HealthPoints b=250;
+    a=b+30;
+    std::cout<<a;
     return 0;
 }
