@@ -51,13 +51,6 @@ public:
      */
     HealthPoints operator-(int points) const;
 
-    /**
-     * other side of "-" operator
-     * @param points
-     * @param a
-     * @return
-     */
-    friend HealthPoints operator-(int points, HealthPoints &a);
 
     /**
      * compares health points value between two objects

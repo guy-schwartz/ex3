@@ -50,17 +50,6 @@ HealthPoints HealthPoints::operator-(const int points) const
     return (result-=points);
 }
 
-HealthPoints operator-(int points, HealthPoints &a)
-{
-    int temp=points-a.m_currentValue;
-    if(temp<0)
-    {
-        temp=0;
-    }
-    HealthPoints b=temp;
-    return b;
-}
-
 bool operator==(const HealthPoints& object1, const HealthPoints& object2)
 {
     return object1.m_currentValue==object2.m_currentValue;
