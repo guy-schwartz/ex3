@@ -201,7 +201,7 @@ template <class T>
 typename Queue<T>::Iterator Queue<T>::end(){
     if(!m_size)
     {
-        throw EmptyQueue();
+        return Iterator(this,NULL);
     }
     return Iterator(this, m_last->m_nextNode);
 }
@@ -312,7 +312,7 @@ template <class T>
 typename Queue<T>::ConstIterator Queue<T>::end() const{
     if(!m_size)
     {
-        throw EmptyQueue();
+        return ConstIterator(this,NULL);
     }
     return ConstIterator(this, m_last->m_nextNode);
 }
