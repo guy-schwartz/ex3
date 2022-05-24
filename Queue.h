@@ -13,8 +13,7 @@ class Node{
     Node<T> *m_nextNode;
 
     explicit Node(T t): m_data(t),  m_nextNode(NULL)
-    {
-    }
+    {}
 };
 
 template <class T>
@@ -56,10 +55,10 @@ class Queue{
 };
 
 template <class T>
-Queue<T>::Queue(): m_size(0), m_first(NULL), m_last(NULL){}
+Queue<T>::Queue():  m_first(NULL), m_last(NULL), m_size(0){}
 
 template <class T>
-Queue<T>::Queue(const Queue<T>& other): m_size(0), m_first(NULL), m_last(NULL){
+Queue<T>::Queue(const Queue<T>& other):  m_first(NULL), m_last(NULL), m_size(0){
 
     Node<T> *temp = other.m_first;
 
@@ -266,7 +265,7 @@ bool Queue<T>::Iterator::operator==(const Iterator& Iterator) const{
 template <class T>
 bool Queue<T>::Iterator::operator!=(const Iterator& Iterator) const{
 
-    return !(*this = Iterator);
+    return !(*this == Iterator);
 }
 
 template <class T>
