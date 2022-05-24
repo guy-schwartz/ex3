@@ -141,10 +141,6 @@ T Queue<T>::front() const{
 
 template <class T>
 void Queue<T>::popFront(){
-    if(!m_size)
-    {
-        throw EmptyQueue();
-    }
     if(m_size > 0){
 
         if(m_first == m_last){
@@ -154,9 +150,9 @@ void Queue<T>::popFront(){
         }
         else{
 
-        Node<T> *temp = m_first;
-        m_first = m_first->m_nextNode;
-        delete temp;
+            Node<T> *temp = m_first;
+            m_first = m_first->m_nextNode;
+            delete temp;
         }
         m_size--;
     }
@@ -205,7 +201,7 @@ template <class T>
 typename Queue<T>::Iterator Queue<T>::end(){
     if(!m_size)
     {
-        throw Queue<T>::EmptyQueue();
+        throw EmptyQueue();
     }
     return Iterator(this, m_last->m_nextNode);
 }
