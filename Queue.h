@@ -4,15 +4,15 @@
 
 #ifndef EX3_QUEUE_H
 #define EX3_QUEUE_H
+#include <iostream>
 
 template <class T>
 class Node{
     public:
     T m_data;
     Node<T> *m_nextNode;
-    Node<T> *m_previousNode;
 
-    Node(T t): m_data(t),  m_nextNode(NULL), m_previousNode(NULL)
+    explicit Node(T t): m_data(t),  m_nextNode(NULL)
     {
     }
 };
@@ -52,11 +52,11 @@ class Queue{
     Iterator begin();
     Iterator end();
 
-    
+    class EmptyQueue{};
 };
 
 template <class T>
-Queue<T>::Queue(): m_size(0), m_first(NULL), m_last(NULL){};
+Queue<T>::Queue(): m_size(0), m_first(NULL), m_last(NULL){}
 
 template <class T>
 Queue<T>::Queue(const Queue<T>& other): m_size(0), m_first(NULL), m_last(NULL){
@@ -93,7 +93,7 @@ Queue<T>& Queue<T>::operator=(const Queue<T>& other){
 
     Node<T> *temp = other.m_first;
 
-    while(temp != Null){
+    while(temp != NULL){
 
         pushBack(temp->m_data);
         temp = temp->m_nextNode;
@@ -104,38 +104,49 @@ Queue<T>& Queue<T>::operator=(const Queue<T>& other){
 
 template <class T>
 void Queue<T>::pushBack(const T& data){
+    Node<T> *temp=NULL;
+    try{
+         temp = new Node<T>(data);
+    } catch(const std::bad_alloc&){};
 
-        Node<T> *temp = new Node<T>(data);
-        
-        if(m_size == 0){
+    if(m_size == 0){
 
-            m_first = m_last = temp;
-        }
-        else{
+        m_first = m_last = temp;
+    }
+    else{
 
-            m_last->m_nextNode = temp;
-            m_last = temp;
-        }
+        m_last->m_nextNode = temp;
+        m_last = temp;
+    }
 
-        m_size++;
+    m_size++;
 }
 
 template <class T>
 T& Queue<T>::front(){
-
-    retuen m_first->m_data;
+    if(!m_size)
+    {
+        throw EmptyQueue();
+    }
+    return m_first->m_data;
 }
 
 template <class T>
 T Queue<T>::front() const{
-
-    retuen m_first->m_data;
+    if(!m_size)
+    {
+        throw EmptyQueue();
+    }
+    return m_first->m_data;
 }
 
 template <class T>
 void Queue<T>::popFront(){
-
-    if(size > 0){
+    if(!m_size)
+    {
+        throw EmptyQueue();
+    }
+    if(m_size > 0){
 
         if(m_first == m_last){
             
@@ -154,7 +165,6 @@ void Queue<T>::popFront(){
 
 template <class T>
 int Queue<T>::size() const{
-     
      return m_size;
 }
 
@@ -180,17 +190,24 @@ class Queue<T>::Iterator{
     
     Iterator(const Iterator&) = default;
     Iterator& operator=(const Iterator&) = default;
+    class InvalidOperation{};
 };
 
 template<class T>
 typename Queue<T>::Iterator Queue<T>::begin(){
-
+    if(!m_size)
+    {
+        //throw EmptyQueue();
+    }
     return Iterator(this, m_first);
 }
 
 template <class T> 
 typename Queue<T>::Iterator Queue<T>::end(){
-
+    if(!m_size)
+    {
+        throw Queue<T>::EmptyQueue();
+    }
     return Iterator(this, m_last->m_nextNode);
 }
 
@@ -203,16 +220,20 @@ m_queue(queue), m_node(node)
 
 template <class T>
 T& Queue<T>::Iterator::operator*(){
-
-    if(m_node! = NULL){
+    if(m_queue==NULL||m_node==NULL){
+        throw InvalidOperation();
+    }
+    else{
         return m_node->m_data;
     }
 }
 
 template <class T>
 typename Queue<T>::Iterator& Queue<T>::Iterator::operator++(){
-
-    if(m_node != NULL){
+    if(m_queue==NULL||m_node==NULL){
+        throw InvalidOperation();
+    }
+    else{
 
         m_node = m_node->m_nextNode;
     }
@@ -222,7 +243,9 @@ typename Queue<T>::Iterator& Queue<T>::Iterator::operator++(){
 
 template <class T>
 typename Queue<T>::Iterator Queue<T>::Iterator::operator++(int){
-
+    if(m_queue==NULL||m_node==NULL){
+        throw InvalidOperation();
+    }
     ConstIterator result = *this;
     ++*this;
     return result;
@@ -231,7 +254,7 @@ typename Queue<T>::Iterator Queue<T>::Iterator::operator++(int){
 template <class T>
 bool Queue<T>::Iterator::operator==(const Iterator& Iterator) const{
 
-    if(m_queue == ConstIterator.m_queue && m_node == ConstIterator.m_node){
+    if(m_queue == Iterator.m_queue && m_node == Iterator.m_node){
 
         return true;
     }
@@ -243,13 +266,15 @@ bool Queue<T>::Iterator::operator==(const Iterator& Iterator) const{
 template <class T>
 bool Queue<T>::Iterator::operator!=(const Iterator& Iterator) const{
 
-    return !(*this == ConstIterator);
+    return !(*this = Iterator);
 }
 
 template <class T>
 T* Queue<T>::Iterator::operator->(){
-
-    if(m_node! = NULL){
+    if(m_queue==NULL||m_node==NULL){
+        throw InvalidOperation();
+    }
+    else{
         return &(m_node->m_data);
     }
 
@@ -275,18 +300,25 @@ class Queue<T>::ConstIterator{
     
     ConstIterator(const ConstIterator&) = default;
     ConstIterator& operator=(const ConstIterator&) = default;
+    class InvalidOperation{};
 };
 
 
 template<class T>
 typename Queue<T>::ConstIterator Queue<T>::begin() const{
-
+    if(!m_size)
+    {
+        //throw EmptyQueue();
+    }
     return ConstIterator(this, m_first);
 }
 
 template <class T> 
 typename Queue<T>::ConstIterator Queue<T>::end() const{
-
+    if(!m_size)
+    {
+        throw EmptyQueue();
+    }
     return ConstIterator(this, m_last->m_nextNode);
 }
 
@@ -299,16 +331,20 @@ m_queue(queue), m_node(node)
 
 template <class T>
 const T& Queue<T>::ConstIterator::operator*() const{
-
-    if(m_node! = NULL){
+    if(m_queue==NULL||m_node==NULL){
+        throw InvalidOperation();
+    }
+    else{
         return m_node->m_data;
     }
 }
 
 template <class T>
 typename Queue<T>::ConstIterator& Queue<T>::ConstIterator::operator++(){
-
-    if(m_node != NULL){
+    if(m_queue==NULL||m_node==NULL){
+        throw InvalidOperation();
+    }
+    else{
 
         m_node = m_node->m_nextNode;
     }
@@ -318,7 +354,9 @@ typename Queue<T>::ConstIterator& Queue<T>::ConstIterator::operator++(){
 
 template <class T>
 typename Queue<T>::ConstIterator Queue<T>::ConstIterator::operator++(int){
-
+    if(m_queue==NULL||m_node==NULL){
+        throw InvalidOperation();
+    }
     ConstIterator result = *this;
     ++*this;
     return result;
@@ -345,14 +383,14 @@ bool Queue<T>::ConstIterator::operator!=(const ConstIterator& ConstIterator) con
 template <class T>
 const T* Queue<T>::ConstIterator::operator->() const{
 
-    if(m_node! = NULL){
+    if(m_node!= NULL){
         return &(m_node->m_data);
     }
 
 }
 
 template <class T, class Condition>
-Queue<T>& filter(const Queue<T>& queue, Condition c){
+Queue<T> filter(const Queue<T>& queue, Condition c){
 
     Queue<T> result; 
 
@@ -368,7 +406,7 @@ Queue<T>& filter(const Queue<T>& queue, Condition c){
 }
 
 template <class T, class Condition>
-void Transform (Queue<T>& queue, Condition c){
+void transform (Queue<T>& queue, Condition c){
 
     for(typename Queue<T>::Iterator it = queue.begin(); it != queue.end(); ++it){
 
