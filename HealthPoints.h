@@ -6,6 +6,8 @@
 #define EX3_HEALTHPOINTS_H
 #include <iostream>
 
+//todo: make sure u can have three friends
+
 class HealthPoints
 {
 public:
