@@ -104,9 +104,8 @@ Queue<T>& Queue<T>::operator=(const Queue<T>& other){
 template <class T>
 void Queue<T>::pushBack(const T& data){
     Node<T> *temp=NULL;
-    try{
-         temp = new Node<T>(data);
-    } catch(const std::bad_alloc&){};
+
+    temp = new Node<T>(data);
 
     if(m_size == 0){
 
@@ -190,10 +189,6 @@ class Queue<T>::Iterator{
 
 template<class T>
 typename Queue<T>::Iterator Queue<T>::begin(){
-    if(!m_size)
-    {
-        //throw EmptyQueue();
-    }
     return Iterator(this, m_first);
 }
 
