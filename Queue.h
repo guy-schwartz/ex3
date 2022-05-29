@@ -236,7 +236,7 @@ typename Queue<T>::Iterator Queue<T>::Iterator::operator++(int){
     if(m_queue==NULL||m_node==NULL){
         throw InvalidOperation();
     }
-    ConstIterator result = *this;
+    Iterator result = *this;
     ++*this;
     return result;
 }
