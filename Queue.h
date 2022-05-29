@@ -173,10 +173,8 @@ class Queue<T>::Iterator{
 
     public:
     T& operator*();
-    //const
     Iterator& operator++();
     Iterator operator++(int);
-    //const
     T* operator->();
 
     bool operator==(const Iterator& Iterator) const;
