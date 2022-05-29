@@ -80,7 +80,7 @@ Queue<T>::~Queue(){
 template <class T>
 Queue<T>& Queue<T>::operator=(const Queue<T>& other){
 
-    if(this == other){
+    if(this == &other){
 
         return *this;
     }
@@ -154,6 +154,8 @@ void Queue<T>::popFront(){
             delete temp;
         }
         m_size--;
+    } else {
+        throw EmptyQueue();
     }
 }
 
