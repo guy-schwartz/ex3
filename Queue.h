@@ -11,9 +11,12 @@ class Node{
     public:
     T m_data;
     Node<T> *m_nextNode;
-
-    explicit Node(T t): m_data(t),  m_nextNode(NULL)
-    {}
+//todo:
+    explicit Node(T t)//: m_data(t),  m_nextNode(NULL)
+    {
+      m_data=t;
+      m_nextNode=NULL;
+    }
 };
 
 template <class T>
@@ -140,7 +143,7 @@ T Queue<T>::front() const{
 
 template <class T>
 void Queue<T>::popFront(){
-    if(m_size > 0){
+    if(m_first != NULL){
 
         if(m_first == m_last){
             
